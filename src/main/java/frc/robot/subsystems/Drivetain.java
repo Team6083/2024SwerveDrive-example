@@ -5,9 +5,6 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
-
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -35,14 +32,6 @@ public class Drivetain extends SubsystemBase {
   private final SwerveDriveOdometry odometry;
 
   private final AHRS gyro;
-
-  private final PIDController rotController = new PIDController(0.5, 0, 0);
-
-  // choose oneMuduleTest
-  private boolean oneMuduleTest;
-  private double chooseModule;
-  private double moduleSpeed;
-  private double moduleDegree;
 
   private SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
 
@@ -106,14 +95,10 @@ public class Drivetain extends SubsystemBase {
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, gyro.getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DrivetainConstants.kMaxSpeed);
-    if (oneMuduleTest) {
-      setOneModuleSpeed((int) chooseModule);
-    } else {
       frontLeft.setDesiredState(swerveModuleStates[0]);
       frontRight.setDesiredState(swerveModuleStates[1]);
       backLeft.setDesiredState(swerveModuleStates[2]);
       backRight.setDesiredState(swerveModuleStates[3]);
-    }
   }
 
   /** Updates the field relative position of the robot. */
@@ -128,48 +113,12 @@ public class Drivetain extends SubsystemBase {
         });
   }
 
-  // by test the different xboxController mode
-  public double PIDcontrolRot(double rightX, double rightY) {
-    double angle = Math.atan2(rightY, rightX);
-    double rotSpd = rotController.calculate(gyro.getRotation2d().getRadians(), angle);
-    return rotSpd;
-  }
-
-  public void setOneModuleSpeed(int chooseModule) {
-    switch (chooseModule) {
-      case 0:
-        frontLeft.setDesiredState(new SwerveModuleState(moduleSpeed, Rotation2d.fromDegrees(moduleDegree)));
-        break;
-      case 1:
-        frontRight.setDesiredState(new SwerveModuleState(moduleSpeed, Rotation2d.fromDegrees(moduleDegree)));
-        break;
-      case 2:
-        backLeft.setDesiredState(new SwerveModuleState(moduleSpeed, Rotation2d.fromDegrees(moduleDegree)));
-        break;
-      case 3:
-        backRight.setDesiredState(new SwerveModuleState(moduleSpeed, Rotation2d.fromDegrees(moduleDegree)));
-        break;
-      default:
-    }
-  }
-
   public void putDashboard() {
-    SmartDashboard.putBoolean("oneMuduleTest", oneMuduleTest);
-    SmartDashboard.putNumber("chooseModule", chooseModule);
     SmartDashboard.putNumber("frontLeft_speed", swerveModuleStates[0].speedMetersPerSecond);
     SmartDashboard.putNumber("frontRight_speed", swerveModuleStates[1].speedMetersPerSecond);
     SmartDashboard.putNumber("backLeft_speed", swerveModuleStates[2].speedMetersPerSecond);
     SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("gyro_heading", gyro.getRotation2d().getDegrees());
-    SmartDashboard.putNumber("moduleSpeed", moduleSpeed);
-    SmartDashboard.putNumber("moduleDegree", moduleDegree);
-  }
-
-  public void getValueFromDashboard() {
-    oneMuduleTest = SmartDashboard.getBoolean("oneMuduleTest", false);
-    chooseModule = SmartDashboard.getNumber("chooseModule", chooseModule);
-    moduleSpeed = SmartDashboard.getNumber("moduleSpeed", moduleSpeed);
-    moduleDegree = SmartDashboard.getNumber("moduleDegree", moduleDegree);
   }
 
   @Override
@@ -177,6 +126,5 @@ public class Drivetain extends SubsystemBase {
     // This method will be called once per scheduler run
     updateOdometry();
     putDashboard();
-    getValueFromDashboard();
   }
 }
