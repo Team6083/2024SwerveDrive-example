@@ -44,6 +44,7 @@ public class SwerveModule extends SubsystemBase {
     turningEncoder = new CANcoder(turningEncoderChannelA);
     CANcoderConfiguration turningEncoderConfiguration = new CANcoderConfiguration();
     turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    turningEncoder.getConfigurator().apply(turningEncoderConfiguration);
 
     driveEncoder = driveMotor.getEncoder();
 
@@ -110,7 +111,8 @@ public class SwerveModule extends SubsystemBase {
 
   // to get rotation of turning motor
   public double getRotation() {
-    return turningEncoder.getAbsolutePosition().getValueAsDouble();
+    
+    return turningEncoder.getAbsolutePosition().getValue()*360.0;
   }
 
   // to the get the postion by wpi function
@@ -147,7 +149,7 @@ public class SwerveModule extends SubsystemBase {
     } else {
       var moduleState = optimizeOutputVoltage(desiredState, getRotation());
       driveMotor.setVoltage(moduleState[0]);
-      turningMotor.setVoltage(moduleState[1]);
+      turningMotor.setVoltage(-moduleState[1]);
       SmartDashboard.putNumber(turningEncoder+"_voltage", moduleState[0]);
     }
   }
@@ -155,6 +157,7 @@ public class SwerveModule extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    SmartDashboard.putNumber(turningEncoder+"_degree", getRotation());
   }
 
 }

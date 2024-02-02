@@ -42,9 +42,9 @@ public class Drivetain extends SubsystemBase {
     backRightLocation = new Translation2d(-0.3, -0.3);
 
     frontLeft = new SwerveModule(10, 11, 5, DrivetainConstants.kFrontLeftDriveMotorInverted);
-    frontRight = new SwerveModule(15, 14, 4, DrivetainConstants.kFrontRightDriveMotorInverted);
-    backLeft = new SwerveModule(12, 13, 2, DrivetainConstants.kBackLeftDriveMotorInverted);
-    backRight = new SwerveModule(17, 16, 3, DrivetainConstants.kBackRightDriveMotorInverted);
+    frontRight = new SwerveModule(12, 13, 4, DrivetainConstants.kFrontRightDriveMotorInverted);
+    backLeft = new SwerveModule(14, 15, 2, DrivetainConstants.kBackLeftDriveMotorInverted);
+    backRight = new SwerveModule(16, 17, 3, DrivetainConstants.kBackRightDriveMotorInverted);
 
     SmartDashboard.putData("frontLeft", frontLeft);
     SmartDashboard.putData("frontRight", frontRight);
@@ -95,9 +95,9 @@ public class Drivetain extends SubsystemBase {
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, gyro.getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
     SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DrivetainConstants.kMaxSpeed);
-      frontLeft.setDesiredState(swerveModuleStates[0]);
-      frontRight.setDesiredState(swerveModuleStates[1]);
-      backLeft.setDesiredState(swerveModuleStates[2]);
+      // frontLeft.setDesiredState(swerveModuleStates[0]);
+      // frontRight.setDesiredState(swerveModuleStates[1]);
+      // backLeft.setDesiredState(swerveModuleStates[2]);
       backRight.setDesiredState(swerveModuleStates[3]);
   }
 

@@ -50,7 +50,7 @@ public final class Constants {
     
     public static final double kDesireSpeedtoMotorVoltage = kMaxModuleDriveVoltage / DrivetainConstants.kMaxSpeed;
 
-    public static final double kMaxModuleTuringVoltage = 2.0;
+    public static final double kMaxModuleTuringVoltage = 7.0;
 
     public static final double kMaxSpeedTurningDegree = 180.0;
 
