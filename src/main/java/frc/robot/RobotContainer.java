@@ -7,7 +7,7 @@ package frc.robot;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
 import frc.robot.commands.SwerveJoystickCmd;
-import frc.robot.subsystems.Drivetain;
+import frc.robot.subsystems.Drivebase;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  Drivetain drivetain;
+  Drivebase drivetain;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController = new CommandXboxController(
@@ -62,7 +62,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    drivetain = new Drivetain();
+    drivetain = new Drivebase();
     drivetain.setDefaultCommand(new SwerveJoystickCmd(drivetain, driverController));
     
   }

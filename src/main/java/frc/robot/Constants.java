@@ -31,9 +31,9 @@ public final class Constants {
     public static final double yLimiterRateLimit = 3.0;
     public static final double rotLimiterRateLimit = 3.0;
 
-    public static final boolean kFrontLeftDriveMotorInverted = true;
+    public static final boolean kFrontLeftDriveMotorInverted = false;
     public static final boolean kFrontRightDriveMotorInverted = false;
-    public static final boolean kBackLeftDriveMotorInverted = true;
+    public static final boolean kBackLeftDriveMotorInverted = false;
     public static final boolean kBackRightDriveMotorInverted = false;
   }
 

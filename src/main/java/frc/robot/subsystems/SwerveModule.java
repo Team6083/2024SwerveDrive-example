@@ -57,8 +57,8 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 150);
     driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 150);
     driveMotor.setClosedLoopRampRate(ModuleConstants.kClosedLoopRampRate);
+
     turningMotor.setSmartCurrentLimit(20);
-    driveMotor.setClosedLoopRampRate(0.25);
 
     driveMotor.setIdleMode(IdleMode.kBrake);
     turningMotor.setIdleMode(IdleMode.kBrake);
@@ -111,8 +111,7 @@ public class SwerveModule extends SubsystemBase {
 
   // to get rotation of turning motor
   public double getRotation() {
-    
-    return turningEncoder.getAbsolutePosition().getValue()*360.0;
+    return turningEncoder.getAbsolutePosition().getValueAsDouble()*360.0;
   }
 
   // to the get the postion by wpi function
