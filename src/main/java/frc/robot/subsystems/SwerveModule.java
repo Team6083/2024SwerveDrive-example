@@ -36,21 +36,22 @@ public class SwerveModule extends SubsystemBase {
 
   public SwerveModule(int driveMotorChannel,
       int turningMotorChannel,
-      int turningEncoderChannelA, boolean driveInverted) {
+      int turningEncoderChannelA, boolean driveInverted, double canCoderMagOffset) {
 
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
     turningEncoder = new CANcoder(turningEncoderChannelA);
     CANcoderConfiguration turningEncoderConfiguration = new CANcoderConfiguration();
-    turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
+    turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+    turningEncoderConfiguration.MagnetSensor.MagnetOffset = canCoderMagOffset;
     turningEncoder.getConfigurator().apply(turningEncoderConfiguration);
 
     driveEncoder = driveMotor.getEncoder();
 
     driveMotor.setInverted(driveInverted);
 
-    turningMotor.setInverted(false);
+    turningMotor.setInverted(true);
 
     driveMotor.setSmartCurrentLimit(10, 80);
     driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 40);
@@ -64,7 +65,7 @@ public class SwerveModule extends SubsystemBase {
     turningMotor.setIdleMode(IdleMode.kBrake);
 
     rotController = new PIDController(ModuleConstants.kPRotController, 0, ModuleConstants.kDRotController);
-    rotController.enableContinuousInput(-180.0, 180.0);
+    rotController.enableContinuousInput(0, 360.0);
 
     configDriveMotor();
     driveMotor.burnFlash();
@@ -148,7 +149,7 @@ public class SwerveModule extends SubsystemBase {
     } else {
       var moduleState = optimizeOutputVoltage(desiredState, getRotation());
       driveMotor.setVoltage(moduleState[0]);
-      turningMotor.setVoltage(-moduleState[1]);
+      turningMotor.setVoltage(moduleState[1]);
       SmartDashboard.putNumber(turningEncoder+"_voltage", moduleState[0]);
     }
   }

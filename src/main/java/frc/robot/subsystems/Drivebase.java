@@ -41,10 +41,10 @@ public class Drivebase extends SubsystemBase {
     backLeftLocation = new Translation2d(-0.3, 0.3);
     backRightLocation = new Translation2d(-0.3, -0.3);
 
-    frontLeft = new SwerveModule(10, 11, 5, DrivetainConstants.kFrontLeftDriveMotorInverted);
-    frontRight = new SwerveModule(12, 13, 4, DrivetainConstants.kFrontRightDriveMotorInverted);
-    backLeft = new SwerveModule(14, 15, 2, DrivetainConstants.kBackLeftDriveMotorInverted);
-    backRight = new SwerveModule(16, 17, 3, DrivetainConstants.kBackRightDriveMotorInverted);
+    frontLeft = new SwerveModule(10, 11, 5, DrivetainConstants.kFrontLeftDriveMotorInverted, -0.415527);
+    frontRight = new SwerveModule(12, 13, 4, DrivetainConstants.kFrontRightDriveMotorInverted, 0.045410);
+    backLeft = new SwerveModule(14, 15, 2, DrivetainConstants.kBackLeftDriveMotorInverted, 0.356201 );
+    backRight = new SwerveModule(16, 17, 3, DrivetainConstants.kBackRightDriveMotorInverted, 0.155029);
 
     SmartDashboard.putData("frontLeft", frontLeft);
     SmartDashboard.putData("frontRight", frontRight);
