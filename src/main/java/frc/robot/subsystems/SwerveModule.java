@@ -129,20 +129,6 @@ public class SwerveModule extends SubsystemBase {
     return moduleState;
   }
 
-  public double checkOverVoltage(double currentVoltage, double goalVoltage){
-    double error = goalVoltage-currentVoltage;
-    if(Math.abs(goalVoltage)<DrivetainConstants.kMinSpeed*ModuleConstants.kDesireSpeedtoMotorVoltage){
-      return goalVoltage;
-    }
-    if(Math.abs(error)>ModuleConstants.kLimitModuleDriveVoltage){
-      error *= ModuleConstants.kLimitModuleDriveVoltage/ModuleConstants.kMaxModuleDriveVoltage;
-      return currentVoltage+error;
-    }else{
-      return goalVoltage;
-    }
-    
-  }
-
   public void setDesiredState(SwerveModuleState desiredState) {
     if (Math.abs(desiredState.speedMetersPerSecond) < DrivetainConstants.kMinJoyStickValue) {
       stopModule();
