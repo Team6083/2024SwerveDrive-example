@@ -73,7 +73,7 @@ public class SwerveModule extends SubsystemBase {
     resetAllEncoder();
     clearSticklyFault();
     stopModule();
-    SmartDashboard.putNumber("degree", 0);
+    // SmartDashboard.putNumber("degree", 0);
   }
 
   public void configDriveMotor() {
