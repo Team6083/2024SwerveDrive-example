@@ -112,7 +112,7 @@ public class SwerveModule extends SubsystemBase {
 
   // to get rotation of turning motor
   public double getRotation() {
-    return turningEncoder.getAbsolutePosition().getValueAsDouble()*360.0;
+    return turningEncoder.getAbsolutePosition().getValueAsDouble() * 360.0;
   }
 
   // to the get the postion by wpi function
@@ -136,10 +136,10 @@ public class SwerveModule extends SubsystemBase {
       var moduleState = optimizeOutputVoltage(desiredState, getRotation());
       driveMotor.setVoltage(moduleState[0]);
       turningMotor.setVoltage(moduleState[1]);
-      SmartDashboard.putNumber(turningEncoder+"_voltage", moduleState[0]);
+      SmartDashboard.putNumber("turningEncoder_ID" + turningEncoder.getDeviceID() + "_voltage", moduleState[0]);
     }
   }
-  
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
