@@ -72,11 +72,12 @@ public final class Constants {
 
     public static final double kMaxModuleDriveVoltage = 12.0;
 
-    public static final double kClosedLoopRampRate = 0.25;// 1 second 1 unit
+    public static final double kDriveClosedLoopRampRate = 0.5;// 1 second 1 unit
+    public static final double kTurningClosedLoopRampRate = 0.25;
 
     public static final double kDesireSpeedtoMotorVoltage = kMaxModuleDriveVoltage / DrivebaseConstants.kMaxSpeed;
 
-    public static final double kMaxModuleTuringVoltage = 7.0;
+    public static final double kMaxModuleTuringVoltage = 8.0;
 
     public static final double kMaxSpeedTurningDegree = 180.0;
 
