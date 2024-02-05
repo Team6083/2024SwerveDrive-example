@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class RobotContainer {
 
   // The robot's subsystems and commands are defined here...
-  Drivebase drivetain;
+  Drivebase drivebase;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController driverController = new CommandXboxController(
@@ -62,8 +62,8 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    drivetain = new Drivebase();
-    drivetain.setDefaultCommand(new SwerveJoystickCmd(drivetain, driverController));
+    drivebase = new Drivebase();
+    drivebase.setDefaultCommand(new SwerveJoystickCmd(drivebase, driverController));
     
   }
 
