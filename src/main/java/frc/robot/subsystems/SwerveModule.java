@@ -36,12 +36,12 @@ public class SwerveModule extends SubsystemBase {
 
   public SwerveModule(int driveMotorChannel,
       int turningMotorChannel,
-      int turningEncoderChannelA, boolean driveInverted, double canCoderMagOffset) {
+      int turningEncoderChannel, boolean driveInverted, double canCoderMagOffset) {
 
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
-    turningEncoder = new CANcoder(turningEncoderChannelA);
+    turningEncoder = new CANcoder(turningEncoderChannel);
     CANcoderConfiguration turningEncoderConfiguration = new CANcoderConfiguration();
     turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turningEncoderConfiguration.MagnetSensor.MagnetOffset = canCoderMagOffset;
@@ -73,7 +73,6 @@ public class SwerveModule extends SubsystemBase {
     resetAllEncoder();
     clearSticklyFault();
     stopModule();
-    // SmartDashboard.putNumber("degree", 0);
   }
 
   public void configDriveMotor() {
