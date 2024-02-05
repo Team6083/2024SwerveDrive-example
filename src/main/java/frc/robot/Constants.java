@@ -77,7 +77,7 @@ public final class Constants {
     public static final double kMaxSpeedTurningDegree = 180.0;
 
     public static final double kPRotController = kMaxModuleTuringVoltage / kMaxSpeedTurningDegree;
-
+    public static final double kIRotController = 0.0;
     public static final double kDRotController = 0.0004;
   }
 

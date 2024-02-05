@@ -64,7 +64,7 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.setIdleMode(IdleMode.kBrake);
     turningMotor.setIdleMode(IdleMode.kBrake);
 
-    rotController = new PIDController(ModuleConstants.kPRotController, 0, ModuleConstants.kDRotController);
+    rotController = new PIDController(ModuleConstants.kPRotController, ModuleConstants.kIRotController, ModuleConstants.kDRotController);
     rotController.enableContinuousInput(-180.0, 180.0);
 
     configDriveMotor();
