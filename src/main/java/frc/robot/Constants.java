@@ -21,7 +21,7 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public final class DrivetainConstants {
+  public final class DrivebaseConstants {
     public static final double kMaxSpeed = 5; // 7 meters per second
     public static final double kMinSpeed = 0.25;
     public static final double kMinJoyStickValue = 0.3;
@@ -33,8 +33,10 @@ public final class Constants {
 
     public static final boolean kFrontLeftDriveMotorInverted = true;
     public static final boolean kFrontRightDriveMotorInverted = false;
-    public static final boolean kBackLeftDriveMotorInverted = false;
+    public static final boolean kBackLeftDriveMotorInverted = true;
     public static final boolean kBackRightDriveMotorInverted = false;
+
+    public static final boolean kGyroInverted = true;
   }
 
   public static final class ModuleConstants {
@@ -48,7 +50,7 @@ public final class Constants {
 
     public static final double kClosedLoopRampRate = 0.25;//1 second 1 unit
     
-    public static final double kDesireSpeedtoMotorVoltage = kMaxModuleDriveVoltage / DrivetainConstants.kMaxSpeed;
+    public static final double kDesireSpeedtoMotorVoltage = kMaxModuleDriveVoltage / DrivebaseConstants.kMaxSpeed;
 
     public static final double kMaxModuleTuringVoltage = 7.0;
 

@@ -4,7 +4,11 @@
 
 package frc.robot.subsystems;
 
+import java.sql.Driver;
+
 import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -14,7 +18,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DrivetainConstants;
+import frc.robot.Constants.DrivebaseConstants;
 
 public class Drivebase extends SubsystemBase {
   /** Creates a new Drivetain. */
@@ -41,10 +45,10 @@ public class Drivebase extends SubsystemBase {
     backLeftLocation = new Translation2d(-0.3, 0.3);
     backRightLocation = new Translation2d(-0.3, -0.3);
 
-    frontLeft = new SwerveModule(10, 11, 5, DrivetainConstants.kFrontLeftDriveMotorInverted, -0.415527);
-    frontRight = new SwerveModule(12, 13, 4, DrivetainConstants.kFrontRightDriveMotorInverted, 0.045410);
-    backLeft = new SwerveModule(14, 15, 2, DrivetainConstants.kBackLeftDriveMotorInverted, 0.356201 );
-    backRight = new SwerveModule(16, 17, 3, DrivetainConstants.kBackRightDriveMotorInverted, 0.155029);
+    frontLeft = new SwerveModule(10, 11, 5, DrivebaseConstants.kFrontLeftDriveMotorInverted, 0.049805);
+    frontRight = new SwerveModule(12, 13, 4, DrivebaseConstants.kFrontRightDriveMotorInverted, -0.453369);
+    backLeft = new SwerveModule(14, 15, 2, DrivebaseConstants.kBackLeftDriveMotorInverted, 0.340820);
+    backRight = new SwerveModule(16, 17, 3, DrivebaseConstants.kBackRightDriveMotorInverted, -0.352051);
 
     SmartDashboard.putData("frontLeft", frontLeft);
     SmartDashboard.putData("frontRight", frontRight);
@@ -59,7 +63,7 @@ public class Drivebase extends SubsystemBase {
     // create the odometry
     odometry = new SwerveDriveOdometry(
         kinematics,
-        gyro.getRotation2d(),
+        getRotation2d(),
         new SwerveModulePosition[] {
             frontLeft.getPosition(),
             frontRight.getPosition(),
@@ -78,6 +82,11 @@ public class Drivebase extends SubsystemBase {
     gyro.reset();
   }
 
+  public Rotation2d getRotation2d() {
+    return (DrivebaseConstants.kGyroInverted) ? Rotation2d.fromDegrees(360.0 - gyro.getRotation2d().getDegrees())
+        : gyro.getRotation2d();
+  }
+
   /**
    * Method to drive the robot using joystick info.
    *
@@ -92,19 +101,19 @@ public class Drivebase extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
     swerveModuleStates = kinematics.toSwerveModuleStates(
         fieldRelative
-            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, gyro.getRotation2d())
+            ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getRotation2d())
             : new ChassisSpeeds(xSpeed, ySpeed, rot));
-    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DrivetainConstants.kMaxSpeed);
-      frontLeft.setDesiredState(swerveModuleStates[0]);
-      frontRight.setDesiredState(swerveModuleStates[1]);
-      backLeft.setDesiredState(swerveModuleStates[2]);
-      backRight.setDesiredState(swerveModuleStates[3]);
+    SwerveDriveKinematics.desaturateWheelSpeeds(swerveModuleStates, DrivebaseConstants.kMaxSpeed);
+    frontLeft.setDesiredState(swerveModuleStates[0]);
+    frontRight.setDesiredState(swerveModuleStates[1]);
+    backLeft.setDesiredState(swerveModuleStates[2]);
+    backRight.setDesiredState(swerveModuleStates[3]);
   }
 
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
     odometry.update(
-        gyro.getRotation2d(),
+        getRotation2d(),
         new SwerveModulePosition[] {
             frontLeft.getPosition(),
             frontRight.getPosition(),
@@ -118,7 +127,7 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("frontRight_speed", swerveModuleStates[1].speedMetersPerSecond);
     SmartDashboard.putNumber("backLeft_speed", swerveModuleStates[2].speedMetersPerSecond);
     SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
-    SmartDashboard.putNumber("gyro_heading", gyro.getRotation2d().getDegrees());
+    SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
   }
 
   @Override

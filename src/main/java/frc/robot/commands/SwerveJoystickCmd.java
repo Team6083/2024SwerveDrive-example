@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.DrivetainConstants;
+import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.subsystems.Drivebase;
 
 public class SwerveJoystickCmd extends Command {
@@ -17,16 +17,16 @@ public class SwerveJoystickCmd extends Command {
   private final SlewRateLimiter xLimiter;
   private final SlewRateLimiter yLimiter;
   private final SlewRateLimiter rotLimiter;
-  private final double drivebaseMaxSpeed = DrivetainConstants.kMaxSpeed;
+  private final double drivebaseMaxSpeed = DrivebaseConstants.kMaxSpeed;
   private double xSpeed, ySpeed, rotSpeed;
 
   public SwerveJoystickCmd(Drivebase drivebase, CommandXboxController main) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivebase = drivebase;
     this.main = main;
-    xLimiter = new SlewRateLimiter(DrivetainConstants.xLimiterRateLimit);
-    yLimiter = new SlewRateLimiter(DrivetainConstants.yLimiterRateLimit);
-    rotLimiter = new SlewRateLimiter(DrivetainConstants.rotLimiterRateLimit);
+    xLimiter = new SlewRateLimiter(DrivebaseConstants.xLimiterRateLimit);
+    yLimiter = new SlewRateLimiter(DrivebaseConstants.yLimiterRateLimit);
+    rotLimiter = new SlewRateLimiter(DrivebaseConstants.rotLimiterRateLimit);
     addRequirements(this.drivebase);
   }
 
@@ -36,7 +36,7 @@ public class SwerveJoystickCmd extends Command {
     xSpeed = xLimiter.calculate(main.getLeftX()) * drivebaseMaxSpeed;
     ySpeed = yLimiter.calculate(main.getLeftY()) * drivebaseMaxSpeed;
     rotSpeed = rotLimiter.calculate(main.getRightX()) * drivebaseMaxSpeed;
-    drivebase.drive(xSpeed, ySpeed, rotSpeed, !main.getHID().getAButton());
+    drivebase.drive(-xSpeed, ySpeed, rotSpeed, !main.getHID().getAButton());
   }
 
   // Called once the command ends or is interrupted.

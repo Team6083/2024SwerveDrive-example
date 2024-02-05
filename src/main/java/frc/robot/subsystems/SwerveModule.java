@@ -19,7 +19,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.DrivetainConstants;
+import frc.robot.Constants.DrivebaseConstants;
 import frc.robot.Constants.ModuleConstants;
 
 public class SwerveModule extends SubsystemBase {
@@ -43,7 +43,7 @@ public class SwerveModule extends SubsystemBase {
 
     turningEncoder = new CANcoder(turningEncoderChannelA);
     CANcoderConfiguration turningEncoderConfiguration = new CANcoderConfiguration();
-    turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Unsigned_0To1;
+    turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
     turningEncoderConfiguration.MagnetSensor.MagnetOffset = canCoderMagOffset;
     turningEncoder.getConfigurator().apply(turningEncoderConfiguration);
 
@@ -65,7 +65,7 @@ public class SwerveModule extends SubsystemBase {
     turningMotor.setIdleMode(IdleMode.kBrake);
 
     rotController = new PIDController(ModuleConstants.kPRotController, 0, ModuleConstants.kDRotController);
-    rotController.enableContinuousInput(0, 360.0);
+    rotController.enableContinuousInput(-180.0, 180.0);
 
     configDriveMotor();
     driveMotor.burnFlash();
@@ -130,7 +130,7 @@ public class SwerveModule extends SubsystemBase {
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
-    if (Math.abs(desiredState.speedMetersPerSecond) < DrivetainConstants.kMinJoyStickValue) {
+    if (Math.abs(desiredState.speedMetersPerSecond) < DrivebaseConstants.kMinJoyStickValue) {
       stopModule();
     } else {
       var moduleState = optimizeOutputVoltage(desiredState, getRotation());
