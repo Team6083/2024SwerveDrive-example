@@ -40,7 +40,11 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderChannel = 2;
     public static final int kBackRightTurningEncoderChannel = 3;
 
-    //
+    // can coder magnet offset value
+    public static final double kFrontLeftCanCoderMagOffset = 0.066650;
+    public static final double kFrontRightCanCoderMagOffset = -0.442871;
+    public static final double kBackLeftCanCoderMagOffset = 0.351562;
+    public static final double kBackRightCanCoderMagOffset = -0.333740;
 
     public static final double kMaxSpeed = 5; // 7 meters per second
     public static final double kMinSpeed = 0.25;
@@ -77,7 +81,7 @@ public final class Constants {
     public static final double kMaxSpeedTurningDegree = 180.0;
 
     public static final double kPRotController = kMaxModuleTuringVoltage / kMaxSpeedTurningDegree;
-
+    public static final double kIRotController = 0.0;
     public static final double kDRotController = 0.0004;
   }
   
