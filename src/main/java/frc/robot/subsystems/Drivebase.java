@@ -94,8 +94,8 @@ public class Drivebase extends SubsystemBase {
   
 
   public Rotation2d getRotation2d() {
-    return (DrivebaseConstants.kGyroInverted) ? Rotation2d.fromDegrees(360.0 - gyro.getRotation2d().getDegrees())
-        : gyro.getRotation2d();
+    return Rotation2d.fromDegrees(DrivebaseConstants.kGyroOffSet+((DrivebaseConstants.kGyroInverted) ? (360.0 - gyro.getRotation2d().getDegrees())
+        : gyro.getRotation2d().getDegrees()));
   }
 
   /**

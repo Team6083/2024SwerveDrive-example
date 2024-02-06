@@ -35,8 +35,6 @@ public class RobotContainer {
 
   private final PowerDistribution pd = new PowerDistribution();
 
-  private double[] chassisSpeeds = new double[3];
-
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -75,15 +73,6 @@ public class RobotContainer {
     SmartDashboard.putNumber("xbox_leftX", driverController.getLeftX());
     SmartDashboard.putNumber("xbox_leftY", driverController.getLeftY());
     SmartDashboard.putNumber("pd_voltage", pd.getVoltage());
-    SmartDashboard.putNumber("xSpeed", chassisSpeeds[0]);
-    SmartDashboard.putNumber("ySpeed", chassisSpeeds[1]);
-    SmartDashboard.putNumber("rotSpeed", chassisSpeeds[2]);
-  }
-
-  private void getValueFromDashboard(){
-    chassisSpeeds[0] = SmartDashboard.getNumber("xSpeed", 0);
-    chassisSpeeds[1] = SmartDashboard.getNumber("ySpeed", 0);
-    chassisSpeeds[2] = SmartDashboard.getNumber("rotSpeed", 0);
   }
 
   /**

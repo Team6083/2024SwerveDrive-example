@@ -13,7 +13,7 @@ private final Drivebase drivebase;
   public GyroresetCmd(Drivebase drivebase) {
 // Use addRequirements() here to declare subsystem dependencies.
   this.drivebase = drivebase;
-  
+  addRequirements(this.drivebase);
   }
 
   // Called when the command is initially scheduled.
