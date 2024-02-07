@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.GyroresetCmd;
+import frc.robot.commands.GyroResetCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Drivebase;
 import edu.wpi.first.wpilibj.PowerDistribution;
@@ -63,7 +63,7 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     drivebase = new Drivebase();
     drivebase.setDefaultCommand(new SwerveJoystickCmd(drivebase, driverController));
-    driverController.b().onTrue(new GyroresetCmd(drivebase) );
+    driverController.b().onTrue(new GyroResetCmd(drivebase) );
       
     
     
