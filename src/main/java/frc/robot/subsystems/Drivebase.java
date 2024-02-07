@@ -77,14 +77,14 @@ public class Drivebase extends SubsystemBase {
             backRight.getPosition()
         });
 
-    resetgyro();
+    resetGyro();
 
     // set the swerve speed equal 0
     drive(0, 0, 0, false);
   }
 
   // reset gyro
-  public void resetgyro() {
+  public void resetGyro() {
     gyro.reset();
   }
 
