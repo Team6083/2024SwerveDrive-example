@@ -40,10 +40,9 @@ public class Drivebase extends SubsystemBase {
   public Drivebase() {
     frontLeftLocation = new Translation2d(0.3, 0.3);
     frontRightLocation = new Translation2d(0.3, -0.3);
-    backLeftLocation = new Translation2d(-0.3,
-        0.3);
+    backLeftLocation = new Translation2d(-0.3, 0.3);
     backRightLocation = new Translation2d(-0.3, -0.3);
-
+    
     frontLeft = new SwerveModule(DrivebaseConstants.kFrontLeftDriveMotorChannel,
         DrivebaseConstants.kFrontLeftTurningMotorChannel, DrivebaseConstants.kFrontLeftTurningEncoderChannel,
         DrivebaseConstants.kFrontLeftDriveMotorInverted, DrivebaseConstants.kFrontLeftCanCoderMagOffset);
@@ -106,6 +105,7 @@ public class Drivebase extends SubsystemBase {
    *                      using the wpi function to set the speed of the swerve
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative) {
+    fieldRelative = true;
     swerveModuleStates = kinematics.toSwerveModuleStates(
         fieldRelative
             ? ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rot, getRotation2d())
@@ -135,6 +135,7 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("backLeft_speed", swerveModuleStates[2].speedMetersPerSecond);
     SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
+    SmartDashboard.putBoolean("gyro_isConnected", gyro.isConnected());
   }
 
   @Override
