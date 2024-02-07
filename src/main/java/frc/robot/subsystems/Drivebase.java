@@ -33,7 +33,7 @@ public class Drivebase extends SubsystemBase {
   private final SwerveDriveKinematics kinematics;
   private final SwerveDriveOdometry odometry;
 
-  private final  AHRS gyro;
+  private final AHRS gyro;
 
   private SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
 
@@ -42,7 +42,7 @@ public class Drivebase extends SubsystemBase {
     frontRightLocation = new Translation2d(0.3, -0.3);
     backLeftLocation = new Translation2d(-0.3, 0.3);
     backRightLocation = new Translation2d(-0.3, -0.3);
-    
+
     frontLeft = new SwerveModule(DrivebaseConstants.kFrontLeftDriveMotorChannel,
         DrivebaseConstants.kFrontLeftTurningMotorChannel, DrivebaseConstants.kFrontLeftTurningEncoderChannel,
         DrivebaseConstants.kFrontLeftDriveMotorInverted, DrivebaseConstants.kFrontLeftCanCoderMagOffset);
@@ -61,7 +61,7 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("backLeft", backLeft);
     SmartDashboard.putData("backRight", backRight);
 
-     gyro = new AHRS(Port.kMXP);
+    gyro = new AHRS(Port.kMXP);
 
     kinematics = new SwerveDriveKinematics(
         frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
@@ -78,23 +78,23 @@ public class Drivebase extends SubsystemBase {
         });
 
     //
-    
-  resetgyro();
+
+    resetgyro();
 
     // set the swerve speed equal 0
     drive(0, 0, 0, false);
   }
+
   // reset gyro
-  public void resetgyro(){
+  public void resetgyro() {
     gyro.reset();
-    
+
   }
 
-  
-
   public Rotation2d getRotation2d() {
-    return Rotation2d.fromDegrees(DrivebaseConstants.kGyroOffSet+((DrivebaseConstants.kGyroInverted) ? (360.0 - gyro.getRotation2d().getDegrees())
-        : gyro.getRotation2d().getDegrees()));
+    return Rotation2d.fromDegrees(DrivebaseConstants.kGyroOffSet
+        + ((DrivebaseConstants.kGyroInverted) ? (360.0 - gyro.getRotation2d().getDegrees())
+            : gyro.getRotation2d().getDegrees()));
   }
 
   /**
