@@ -41,8 +41,6 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
-    // putDashboard();
-    // getValueFromDashboard();
   }
 
   /**
@@ -64,9 +62,6 @@ public class RobotContainer {
     drivebase = new Drivebase();
     drivebase.setDefaultCommand(new SwerveJoystickCmd(drivebase, driverController));
     driverController.b().onTrue(new GyroResetCmd(drivebase) );
-      
-    
-    
   }
 
   private void putDashboard(){
