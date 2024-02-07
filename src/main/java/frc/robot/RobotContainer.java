@@ -10,7 +10,6 @@ import frc.robot.commands.GyroResetCmd;
 import frc.robot.commands.SwerveJoystickCmd;
 import frc.robot.subsystems.Drivebase;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -62,12 +61,6 @@ public class RobotContainer {
     drivebase = new Drivebase();
     drivebase.setDefaultCommand(new SwerveJoystickCmd(drivebase, driverController));
     driverController.b().onTrue(new GyroResetCmd(drivebase) );
-  }
-
-  private void putDashboard(){
-    SmartDashboard.putNumber("xbox_leftX", driverController.getLeftX());
-    SmartDashboard.putNumber("xbox_leftY", driverController.getLeftY());
-    SmartDashboard.putNumber("pd_voltage", pd.getVoltage());
   }
 
   /**
