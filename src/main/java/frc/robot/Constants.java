@@ -46,7 +46,7 @@ public final class Constants {
     public static final double kBackLeftCanCoderMagOffset = 0.344238;
     public static final double kBackRightCanCoderMagOffset = -0.336914 ;
 
-    public static final double kMaxSpeed = 5; // 7 meters per second
+    public static final double kMaxSpeed = 3;
     public static final double kMinSpeed = 0.25;
     public static final double kMinJoyStickValue = 0.3;
     public static final double kMaxAngularSpeed = 2.5 * Math.PI; // 1/2 rotation per second
@@ -61,6 +61,8 @@ public final class Constants {
     public static final boolean kBackRightDriveMotorInverted = false;
 
     public static final boolean kGyroInverted = false; // wheather gyro is under the robot
+
+    public static final double kGyroOffSet = 90.0;
   }
 
   public static final class ModuleConstants {
@@ -68,15 +70,14 @@ public final class Constants {
 
     public static final double kWheelDiameterMeters = 0.15;
 
-    public static final double kLimitModuleDriveVoltage = 7.0;
+    public static final double kMaxModuleDriveVoltage = 8.0;
 
-    public static final double kMaxModuleDriveVoltage = 12.0;
-
-    public static final double kClosedLoopRampRate = 0.25;// 1 second 1 unit
+    public static final double kDriveClosedLoopRampRate = 0.8;// 1 second 1 unit
+    public static final double kTurningClosedLoopRampRate = 0.25;
 
     public static final double kDesireSpeedtoMotorVoltage = kMaxModuleDriveVoltage / DrivebaseConstants.kMaxSpeed;
 
-    public static final double kMaxModuleTuringVoltage = 7.0;
+    public static final double kMaxModuleTuringVoltage = 5.0;
 
     public static final double kMaxSpeedTurningDegree = 180.0;
 
@@ -84,5 +85,5 @@ public final class Constants {
     public static final double kIRotController = 0.0;
     public static final double kDRotController = 0.0004;
   }
-
+  
 }

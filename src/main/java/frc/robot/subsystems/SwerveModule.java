@@ -57,9 +57,10 @@ public class SwerveModule extends SubsystemBase {
     driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 40);
     driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 150);
     driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 150);
-    driveMotor.setClosedLoopRampRate(ModuleConstants.kClosedLoopRampRate);
-
+    driveMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
+    
     turningMotor.setSmartCurrentLimit(20);
+    turningMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
 
     driveMotor.setIdleMode(IdleMode.kBrake);
     turningMotor.setIdleMode(IdleMode.kBrake);
