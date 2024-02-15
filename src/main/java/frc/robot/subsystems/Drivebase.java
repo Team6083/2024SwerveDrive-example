@@ -118,6 +118,13 @@ public class Drivebase extends SubsystemBase {
     backRight.setDesiredState(swerveModuleStates[3]);
   }
 
+  public void resetRobotPose(){
+    frontLeft.resetAllEncoder();
+    frontRight.resetAllEncoder();
+    backLeft.resetAllEncoder();
+    backRight.resetAllEncoder();
+  }
+
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
     odometry.update(
@@ -137,14 +144,14 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
     SmartDashboard.putBoolean("gyro_isConnected", gyro.isConnected());
-    SmartDashboard.putNumber("fl_position", frontLeft.getDrivePosition());
-    SmartDashboard.putNumber("fr_position", frontRight.getDrivePosition());
-    SmartDashboard.putNumber("bl_position", backLeft.getDrivePosition());
-    SmartDashboard.putNumber("br_position", backRight.getDrivePosition());
     SmartDashboard.putNumber("fl_distance", frontLeft.getDriveDistance());
     SmartDashboard.putNumber("fr_distance", frontRight.getDriveDistance());
     SmartDashboard.putNumber("bl_distance", backLeft.getDriveDistance());
     SmartDashboard.putNumber("br_distance", backRight.getDriveDistance());
+    SmartDashboard.putNumber("fl_rate", frontLeft.getDriveRate());
+    SmartDashboard.putNumber("fr_rate", frontRight.getDriveRate());
+    SmartDashboard.putNumber("bl_rate", backLeft.getDriveRate());
+    SmartDashboard.putNumber("br_rate", backRight.getDriveRate());
   }
 
   @Override
