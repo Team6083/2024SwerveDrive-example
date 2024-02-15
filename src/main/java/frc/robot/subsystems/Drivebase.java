@@ -137,6 +137,14 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
     SmartDashboard.putBoolean("gyro_isConnected", gyro.isConnected());
+    SmartDashboard.putNumber("fl_position", frontLeft.getDrivePosition());
+    SmartDashboard.putNumber("fr_position", frontRight.getDrivePosition());
+    SmartDashboard.putNumber("bl_position", backLeft.getDrivePosition());
+    SmartDashboard.putNumber("br_position", backRight.getDrivePosition());
+    SmartDashboard.putNumber("fl_distance", frontLeft.getDriveDistance());
+    SmartDashboard.putNumber("fr_distance", frontRight.getDriveDistance());
+    SmartDashboard.putNumber("bl_distance", backLeft.getDriveDistance());
+    SmartDashboard.putNumber("br_distance", backRight.getDriveDistance());
   }
 
   @Override

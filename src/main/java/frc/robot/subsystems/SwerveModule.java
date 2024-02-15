@@ -100,9 +100,13 @@ public class SwerveModule extends SubsystemBase {
         getDriveRate(), new Rotation2d(Math.toRadians(getRotation())));
   }
 
+  public double getDrivePosition(){
+    return driveEncoder.getPosition();
+  }
+
   // to get the drive distance
   public double getDriveDistance() {
-    return driveEncoder.getPosition() / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius;
+    return getDrivePosition() / 6.75 * 2.0* Math.PI * ModuleConstants.kWheelRadius;
   }
 
   // calculate the rate of the drive
