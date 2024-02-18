@@ -60,7 +60,7 @@ public final class Constants {
     public static final boolean kBackLeftDriveMotorInverted = true;
     public static final boolean kBackRightDriveMotorInverted = false;
 
-    public static final boolean kGyroInverted = false; // wheather gyro is under the robot
+    public static final boolean kGyroInverted = true; // wheather gyro is under the robot
 
     public static final double kGyroOffSet = 90.0;
   }

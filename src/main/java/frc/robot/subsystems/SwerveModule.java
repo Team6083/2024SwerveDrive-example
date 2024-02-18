@@ -49,6 +49,9 @@ public class SwerveModule extends SubsystemBase {
 
     driveEncoder = driveMotor.getEncoder();
 
+    driveEncoder.setPositionConversionFactor(1.0 / 6.75 * 2.0* Math.PI * ModuleConstants.kWheelRadius);
+    driveEncoder.setVelocityConversionFactor(1.0 / 60.0 / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius);
+
     driveMotor.setInverted(driveInverted);
 
     turningMotor.setInverted(true);
@@ -102,12 +105,12 @@ public class SwerveModule extends SubsystemBase {
 
   // to get the drive distance
   public double getDriveDistance() {
-    return driveEncoder.getPosition() / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius;
+    return driveEncoder.getPosition();
   }
 
   // calculate the rate of the drive
   public double getDriveRate() {
-    return driveEncoder.getVelocity() / 60.0 / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius;
+    return driveEncoder.getVelocity();
   }
 
   // to get rotation of turning motor
