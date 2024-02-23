@@ -60,6 +60,7 @@ public class RobotContainer {
   private void configureBindings() {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     drivebase = new Drivebase();
+    drivebase.init();
     drivebase.setDefaultCommand(new SwerveJoystickCmd(drivebase, driverController));
     driverController.b().onTrue(new GyroResetCmd(drivebase) );
     driverController.back().onTrue(new RobotPoseReset(drivebase));

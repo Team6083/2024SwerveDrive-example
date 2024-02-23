@@ -76,11 +76,16 @@ public class Drivebase extends SubsystemBase {
             backLeft.getPosition(),
             backRight.getPosition()
         });
-
-    resetGyro();
-
     // set the swerve speed equal 0
     drive(0, 0, 0, false);
+  }
+
+  public void init() {
+    resetGyro();
+    frontLeft.init();
+    frontRight.init();
+    backLeft.init();
+    backRight.init();
   }
 
   // reset gyro
@@ -118,7 +123,7 @@ public class Drivebase extends SubsystemBase {
     backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  public void resetRobotPose(){
+  public void resetRobotPose() {
     frontLeft.resetAllEncoder();
     frontRight.resetAllEncoder();
     backLeft.resetAllEncoder();

@@ -41,6 +41,9 @@ public class SwerveModule extends SubsystemBase {
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
 
+    driveMotor.setInverted(driveInverted);
+    turningMotor.setInverted(ModuleConstants.kTurningMotorInverted);
+
     turningEncoder = new CANcoder(turningEncoderChannel);
     CANcoderConfiguration turningEncoderConfiguration = new CANcoderConfiguration();
     turningEncoderConfiguration.MagnetSensor.AbsoluteSensorRange = AbsoluteSensorRangeValue.Signed_PlusMinusHalf;
@@ -49,38 +52,41 @@ public class SwerveModule extends SubsystemBase {
 
     driveEncoder = driveMotor.getEncoder();
 
-    driveEncoder.setPositionConversionFactor(1.0 / 6.75 * 2.0* Math.PI * ModuleConstants.kWheelRadius);
-    driveEncoder.setVelocityConversionFactor(1.0 / 60.0 / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius);
-
-    driveMotor.setInverted(driveInverted);
-
-    turningMotor.setInverted(true);
-
-    driveMotor.setSmartCurrentLimit(10, 80);
-    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 40);
-    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 150);
-    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 150);
-    driveMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
-    
-    turningMotor.setSmartCurrentLimit(20);
-    turningMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
-
-    driveMotor.setIdleMode(IdleMode.kBrake);
-    turningMotor.setIdleMode(IdleMode.kBrake);
-
-    rotController = new PIDController(ModuleConstants.kPRotController, ModuleConstants.kIRotController, ModuleConstants.kDRotController);
+    rotController = new PIDController(ModuleConstants.kPRotController, ModuleConstants.kIRotController,
+        ModuleConstants.kDRotController);
     rotController.enableContinuousInput(-180.0, 180.0);
+  }
 
+  public void init() {
     configDriveMotor();
-    driveMotor.burnFlash();
-    turningMotor.burnFlash();
+    configTurningMotor();
+    configDriveEncoder();
     resetAllEncoder();
     clearSticklyFault();
     stopModule();
   }
 
   public void configDriveMotor() {
+    driveMotor.setSmartCurrentLimit(10, 80);
+    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 40);
+    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 150);
+    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 150);
+    driveMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
+    driveMotor.setIdleMode(IdleMode.kBrake);
     driveMotor.enableVoltageCompensation(ModuleConstants.kMaxModuleDriveVoltage);
+    driveMotor.burnFlash();
+  }
+
+  public void configTurningMotor() {
+    turningMotor.setSmartCurrentLimit(20);
+    turningMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
+    turningMotor.setIdleMode(IdleMode.kBrake);
+    turningMotor.burnFlash();
+  }
+
+  public void configDriveEncoder() {
+    driveEncoder.setPositionConversionFactor(1.0 / 6.75 * 2.0 * Math.PI * ModuleConstants.kWheelRadius);
+    driveEncoder.setVelocityConversionFactor(1.0 / 60.0 / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius);
   }
 
   public void resetAllEncoder() {
