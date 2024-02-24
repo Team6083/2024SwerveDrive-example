@@ -36,7 +36,7 @@ public class SwerveJoystickCmd extends Command {
     xSpeed = xLimiter.calculate(main.getLeftY()) * drivebaseMaxSpeed;//forward
     ySpeed = yLimiter.calculate(main.getLeftX()) * drivebaseMaxSpeed;//side
     rotSpeed = rotLimiter.calculate(main.getRightX()) * drivebaseMaxSpeed;
-    drivebase.drive(xSpeed, ySpeed, rotSpeed, !main.getHID().getAButton());
+    drivebase.drive(xSpeed, ySpeed, rotSpeed, false);
   }
 
   // Called once the command ends or is interrupted.
