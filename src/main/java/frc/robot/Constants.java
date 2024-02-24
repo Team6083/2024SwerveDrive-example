@@ -23,22 +23,22 @@ public final class Constants {
 
   public final class DrivebaseConstants {
     // drive motor channel
-    public static final int kFrontLeftDriveMotorChannel = 10;
-    public static final int kFrontRightDriveMotorChannel = 12;
-    public static final int kBackLeftDriveMotorChannel = 14;
-    public static final int kBackRightDriveMotorChannel = 16;
+    public static final int kFrontLeftDriveMotorChannel = 11;
+    public static final int kFrontRightDriveMotorChannel = 13;
+    public static final int kBackLeftDriveMotorChannel = 15;
+    public static final int kBackRightDriveMotorChannel = 17;
 
     // turning motor channel
-    public static final int kFrontLeftTurningMotorChannel = 11;
-    public static final int kFrontRightTurningMotorChannel = 13;
-    public static final int kBackLeftTurningMotorChannel = 15;
-    public static final int kBackRightTurningMotorChannel = 17;
+    public static final int kFrontLeftTurningMotorChannel = 12;
+    public static final int kFrontRightTurningMotorChannel = 14;
+    public static final int kBackLeftTurningMotorChannel = 16;
+    public static final int kBackRightTurningMotorChannel = 18;
 
     // turnning encoder channel
-    public static final int kFrontLeftTurningEncoderChannel = 5;
-    public static final int kFrontRightTurningEncoderChannel = 4;
-    public static final int kBackLeftTurningEncoderChannel = 2;
-    public static final int kBackRightTurningEncoderChannel = 3;
+    public static final int kFrontLeftTurningEncoderChannel = 31;
+    public static final int kFrontRightTurningEncoderChannel = 32;
+    public static final int kBackLeftTurningEncoderChannel = 33;
+    public static final int kBackRightTurningEncoderChannel = 34;
 
     // can coder magnet offset value
     public static final double kFrontLeftCanCoderMagOffset = -0.067871;
@@ -62,7 +62,7 @@ public final class Constants {
 
     public static final boolean kGyroInverted = true; // wheather gyro is under the robot
 
-    public static final double kGyroOffSet = 90.0;
+    public static final double kGyroOffSet = 0.0;
   }
 
   public static final class ModuleConstants {

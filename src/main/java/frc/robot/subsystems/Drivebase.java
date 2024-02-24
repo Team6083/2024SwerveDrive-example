@@ -4,8 +4,8 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.hardware.Pigeon2;
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -33,7 +33,9 @@ public class Drivebase extends SubsystemBase {
   private final SwerveDriveKinematics kinematics;
   private final SwerveDriveOdometry odometry;
 
-  private final AHRS gyro;
+  // private final AHRS gyro;
+
+  private final Pigeon2 gyro;
 
   private SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
 
@@ -61,7 +63,8 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("backLeft", backLeft);
     SmartDashboard.putData("backRight", backRight);
 
-    gyro = new AHRS(Port.kMXP);
+    // gyro = new AHRS(Port.kMXP);
+    gyro = new Pigeon2(30);
 
     kinematics = new SwerveDriveKinematics(
         frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
@@ -148,7 +151,6 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putNumber("backLeft_speed", swerveModuleStates[2].speedMetersPerSecond);
     SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
-    SmartDashboard.putBoolean("gyro_isConnected", gyro.isConnected());
     SmartDashboard.putNumber("fl_distance", frontLeft.getDriveDistance());
     SmartDashboard.putNumber("fr_distance", frontRight.getDriveDistance());
     SmartDashboard.putNumber("bl_distance", backLeft.getDriveDistance());
