@@ -107,6 +107,7 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModuleState getState() {
     return new SwerveModuleState(
         getDriveRate(), new Rotation2d(Math.toRadians(getRotation())));
+
   }
 
   // to get the drive distance
@@ -128,6 +129,7 @@ public class SwerveModule extends SubsystemBase {
   public SwerveModulePosition getPosition() {
     return new SwerveModulePosition(
         getDriveDistance(), new Rotation2d(Math.toRadians(getRotation())));
+        SmartDashboard.putData("getSwervePosition", getPosition());
   }
 
   public double[] optimizeOutputVoltage(SwerveModuleState goalState, double currentTurningDegree) {
