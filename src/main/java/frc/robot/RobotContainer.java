@@ -64,6 +64,8 @@ public class RobotContainer {
     drivebase.setDefaultCommand(new SwerveJoystickCmd(drivebase, driverController));
     driverController.b().onTrue(new GyroResetCmd(drivebase) );
     driverController.back().onTrue(new RobotPoseReset(drivebase));
+    driverController.pov(135).onTrue(drivebase.resetModuleDegreeCmd());
+    driverController.pov(225).onTrue(drivebase.setModuleDegreeTo90Cmd());
   }
 
   /**

@@ -17,6 +17,8 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DrivebaseConstants;
 
@@ -138,6 +140,7 @@ public class Drivebase extends SubsystemBase {
     backRight.resetAllEncoder();
   }
 
+
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
     odometry.update(
@@ -148,6 +151,25 @@ public class Drivebase extends SubsystemBase {
             backLeft.getPosition(),
             backRight.getPosition()
         });
+  }
+  public void resetModuleDegree(){
+    frontLeft.resetTurningDegree();
+    frontRight.resetTurningDegree();
+    backLeft.resetTurningDegree();
+    backRight.resetTurningDegree();
+  }
+
+  public Command resetModuleDegreeCmd(){
+    return Commands.runOnce(this::resetModuleDegree, this);
+  }
+  public void setModuleDegreeTo90(){
+    frontLeft.setTurningDegree90();
+    frontRight.setTurningDegree90();
+    backLeft.setTurningDegree90();
+    backRight.setTurningDegree90();
+  }
+  public Command setModuleDegreeTo90Cmd(){
+    return Commands.runOnce(this::setModuleDegreeTo90, this);
   }
 
   public void putDashboard() {

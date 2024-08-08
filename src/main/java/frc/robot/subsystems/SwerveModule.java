@@ -150,6 +150,14 @@ public class SwerveModule extends SubsystemBase {
     }
   }
 
+public void resetTurningDegree(){
+  double turningDegreeVoltage = rotController.calculate(getRotation(), 0);
+  turningMotor.setVoltage(turningDegreeVoltage);
+}
+public void setTurningDegree90(){
+  double turningDegreeTo90Voltage = rotController.calculate(getRotation(),90);
+  turningMotor.set(turningDegreeTo90Voltage);
+}
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
