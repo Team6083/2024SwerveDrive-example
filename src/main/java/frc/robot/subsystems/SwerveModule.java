@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems;
 
+import javax.swing.text.StyleContext.SmallAttributeSet;
+
 import com.ctre.phoenix6.configs.CANcoderConfiguration;
 import com.ctre.phoenix6.hardware.CANcoder;
 import com.ctre.phoenix6.signals.AbsoluteSensorRangeValue;
@@ -32,11 +34,18 @@ public class SwerveModule extends SubsystemBase {
 
   private final RelativeEncoder driveEncoder;
 
+  private final PIDController driveController;
   private final PIDController rotController;
+
+  private final String name;
+
+  private double kP;
 
   public SwerveModule(int driveMotorChannel,
       int turningMotorChannel,
-      int turningEncoderChannel, boolean driveInverted, double canCoderMagOffset) {
+      int turningEncoderChannel, boolean driveInverted, double canCoderMagOffset, String name) {
+      
+    this.name = name;
 
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
     turningMotor = new CANSparkMax(turningMotorChannel, MotorType.kBrushless);
@@ -52,25 +61,26 @@ public class SwerveModule extends SubsystemBase {
 
     driveEncoder = driveMotor.getEncoder();
 
+    init();
+    driveController = new PIDController(ModuleConstants.kPDriveController, ModuleConstants.kIDriveController,
+        ModuleConstants.kDDriveController);
     rotController = new PIDController(ModuleConstants.kPRotController, ModuleConstants.kIRotController,
         ModuleConstants.kDRotController);
     rotController.enableContinuousInput(-180.0, 180.0);
+    SmartDashboard.putNumber(name+"_kP_Drive", 0.0);
   }
 
   public void init() {
     configDriveMotor();
     configTurningMotor();
-    configDriveEncoder();
     resetAllEncoder();
-    clearSticklyFault();
-    stopModule();
   }
 
   public void configDriveMotor() {
     driveMotor.setSmartCurrentLimit(10, 80);
-    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 40);
-    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 150);
-    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 150);
+    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus0, 10);
+    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus1, 20);
+    driveMotor.setPeriodicFramePeriod(CANSparkLowLevel.PeriodicFrame.kStatus2, 20);
     driveMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
     driveMotor.setIdleMode(IdleMode.kBrake);
     driveMotor.enableVoltageCompensation(ModuleConstants.kMaxModuleDriveVoltage);
@@ -79,23 +89,14 @@ public class SwerveModule extends SubsystemBase {
 
   public void configTurningMotor() {
     turningMotor.setSmartCurrentLimit(20);
-    turningMotor.setClosedLoopRampRate(ModuleConstants.kDriveClosedLoopRampRate);
+    turningMotor.setClosedLoopRampRate(ModuleConstants.kTurningClosedLoopRampRate);
     turningMotor.setIdleMode(IdleMode.kBrake);
+    turningMotor.enableVoltageCompensation(ModuleConstants.kMaxModuleTurningVoltage);
     turningMotor.burnFlash();
-  }
-
-  public void configDriveEncoder() {
-    driveEncoder.setPositionConversionFactor(1.0 / 6.75 * 2.0 * Math.PI * ModuleConstants.kWheelRadius);
-    driveEncoder.setVelocityConversionFactor(1.0 / 60.0 / 6.75 * 2 * Math.PI * ModuleConstants.kWheelRadius);
   }
 
   public void resetAllEncoder() {
     driveEncoder.setPosition(0);
-  }
-
-  public void clearSticklyFault() {
-    driveMotor.clearFaults();
-    turningMotor.clearFaults();
   }
 
   public void stopModule() {
@@ -112,12 +113,12 @@ public class SwerveModule extends SubsystemBase {
 
   // to get the drive distance
   public double getDriveDistance() {
-    return driveEncoder.getPosition();
+    return driveEncoder.getPosition() / ModuleConstants.kModuleGearRate * 2.0 * Math.PI * ModuleConstants.kWheelRadius;
   }
 
   // calculate the rate of the drive
   public double getDriveRate() {
-    return driveEncoder.getVelocity();
+    return driveEncoder.getVelocity() / 60.0 / ModuleConstants.kModuleGearRate * 2.0 * Math.PI * ModuleConstants.kWheelRadius;
   }
 
   // to get rotation of turning motor
@@ -133,35 +134,37 @@ public class SwerveModule extends SubsystemBase {
 
   public double[] optimizeOutputVoltage(SwerveModuleState goalState, double currentTurningDegree) {
     goalState = SwerveModuleState.optimize(goalState, Rotation2d.fromDegrees(currentTurningDegree));
-    double driveMotorVoltage = ModuleConstants.kDesireSpeedtoMotorVoltage * goalState.speedMetersPerSecond;
+    double driveMotorVoltage = goalState.speedMetersPerSecond*ModuleConstants.kDesireSpeedtoMotorVoltage;
     double turningMotorVoltage = rotController.calculate(currentTurningDegree, goalState.angle.getDegrees());
     double[] moduleState = { driveMotorVoltage, turningMotorVoltage };
     return moduleState;
   }
 
   public void setDesiredState(SwerveModuleState desiredState) {
-    if (Math.abs(desiredState.speedMetersPerSecond) < DrivebaseConstants.kMinJoyStickValue) {
+    if (Math.abs(desiredState.speedMetersPerSecond) < DrivebaseConstants.kMinSpeed) {
       stopModule();
     } else {
       var moduleState = optimizeOutputVoltage(desiredState, getRotation());
       driveMotor.setVoltage(moduleState[0]);
       turningMotor.setVoltage(moduleState[1]);
-      SmartDashboard.putNumber("turningEncoder_ID" + turningEncoder.getDeviceID() + "_voltage", moduleState[0]);
     }
   }
 
-public void resetTurningDegree(){
-  double turningDegreeVoltage = rotController.calculate(getRotation(), 0);
-  turningMotor.setVoltage(turningDegreeVoltage);
-}
-public void setTurningDegree90(){
-  double turningDegreeTo90Voltage = rotController.calculate(getRotation(),90);
-  turningMotor.set(turningDegreeTo90Voltage);
-}
+  public void resetTurningDegree() {
+    double turningDegreeVoltage = rotController.calculate(getRotation(), 0);
+    turningMotor.setVoltage(turningDegreeVoltage);
+  }
+
+  public void setTurningDegree90() {
+    double turningDegreeTo90Voltage = rotController.calculate(getRotation(), 90);
+    turningMotor.set(turningDegreeTo90Voltage);
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber("turningEncoder_ID" + turningEncoder.getDeviceID() + "_degree", getRotation());
+    SmartDashboard.putNumber(name+"_ModuleDistance", getDriveDistance());
+    SmartDashboard.putNumber(name+"_ModuleVelocity", getDriveRate());
   }
 
 }

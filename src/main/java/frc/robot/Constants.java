@@ -41,19 +41,18 @@ public final class Constants {
     public static final int kBackRightTurningEncoderChannel = 34;
 
     // can coder magnet offset value
-    public static final double kFrontLeftCanCoderMagOffset = -0.079590;
-    public static final double kFrontRightCanCoderMagOffset = -0.458984;
-    public static final double kBackLeftCanCoderMagOffset = 0.355225;
-    public static final double kBackRightCanCoderMagOffset = -0.333984 ;
+    public static final double kFrontLeftCanCoderMagOffset = 0.003174;
+    public static final double kFrontRightCanCoderMagOffset = 0.117676;
+    public static final double kBackLeftCanCoderMagOffset = 0.347656;
+    public static final double kBackRightCanCoderMagOffset = -0.178955;
 
-    public static final double kMaxSpeed = 3;
-    public static final double kMinSpeed = 0.25;
-    public static final double kMinJoyStickValue = 0.3;
+    public static final double kMaxSpeed = 4.0;
+    public static final double kMinSpeed = 0.2;
     public static final double kMaxAngularSpeed = 2.5 * Math.PI; // 1/2 rotation per second
 
-    public static final double xLimiterRateLimit = 3.0;
-    public static final double yLimiterRateLimit = 3.0;
-    public static final double rotLimiterRateLimit = 3.0;
+    public static final double xLimiterRateLimit = 5.0;
+    public static final double yLimiterRateLimit = 5.0;
+    public static final double rotLimiterRateLimit = 5.0;
 
     public static final boolean kFrontLeftDriveMotorInverted = true;
     public static final boolean kFrontRightDriveMotorInverted = false;
@@ -67,25 +66,27 @@ public final class Constants {
 
   public static final class ModuleConstants {
     public static final double kWheelRadius = 0.046;
+    public static final double kModuleGearRate = 6.75;
 
-    public static final double kWheelDiameterMeters = 0.15;
+    public static final double kMaxModuleDriveVoltage = 12.0;
+    public static final double kMaxModuleTurningVoltage = 8.0;
 
-    public static final double kMaxModuleDriveVoltage = 8.0;
-
-    public static final double kDriveClosedLoopRampRate = 0.8;// 1 second 1 unit
-    public static final double kTurningClosedLoopRampRate = 0.25;
+    public static final double kDriveClosedLoopRampRate = 0.1;// 1 second 1 unit
+    public static final double kTurningClosedLoopRampRate = 0.1;
 
     public static final double kDesireSpeedtoMotorVoltage = kMaxModuleDriveVoltage / DrivebaseConstants.kMaxSpeed;
 
-    public static final double kMaxModuleTuringVoltage = 5.0;
-
     public static final double kMaxSpeedTurningDegree = 180.0;
 
-    public static final double kPRotController = kMaxModuleTuringVoltage / kMaxSpeedTurningDegree;
+    public static final double kPDriveController = kDesireSpeedtoMotorVoltage;
+    public static final double kIDriveController = 0.0;
+    public static final double kDDriveController = 0.0;
+
+    public static final double kPRotController = kMaxModuleTurningVoltage / kMaxSpeedTurningDegree;
     public static final double kIRotController = 0.0;
     public static final double kDRotController = 0.0004;
 
     public static final boolean kTurningMotorInverted = true;
   }
-  
+
 }

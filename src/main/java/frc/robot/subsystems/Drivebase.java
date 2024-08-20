@@ -51,16 +51,16 @@ public class Drivebase extends SubsystemBase {
 
     frontLeft = new SwerveModule(DrivebaseConstants.kFrontLeftDriveMotorChannel,
         DrivebaseConstants.kFrontLeftTurningMotorChannel, DrivebaseConstants.kFrontLeftTurningEncoderChannel,
-        DrivebaseConstants.kFrontLeftDriveMotorInverted, DrivebaseConstants.kFrontLeftCanCoderMagOffset);
+        DrivebaseConstants.kFrontLeftDriveMotorInverted, DrivebaseConstants.kFrontLeftCanCoderMagOffset, "frontLeft");
     frontRight = new SwerveModule(DrivebaseConstants.kFrontRightDriveMotorChannel,
         DrivebaseConstants.kFrontRightTurningMotorChannel, DrivebaseConstants.kFrontRightTurningEncoderChannel,
-        DrivebaseConstants.kFrontRightDriveMotorInverted, DrivebaseConstants.kFrontRightCanCoderMagOffset);
+        DrivebaseConstants.kFrontRightDriveMotorInverted, DrivebaseConstants.kFrontRightCanCoderMagOffset, "frontRight");
     backLeft = new SwerveModule(DrivebaseConstants.kBackLeftDriveMotorChannel,
         DrivebaseConstants.kBackLeftTurningMotorChannel, DrivebaseConstants.kBackLeftTurningEncoderChannel,
-        DrivebaseConstants.kBackLeftDriveMotorInverted, DrivebaseConstants.kBackLeftCanCoderMagOffset);
+        DrivebaseConstants.kBackLeftDriveMotorInverted, DrivebaseConstants.kBackLeftCanCoderMagOffset, "backLeft");
     backRight = new SwerveModule(DrivebaseConstants.kBackRightDriveMotorChannel,
         DrivebaseConstants.kBackRightTurningMotorChannel, DrivebaseConstants.kBackRightTurningEncoderChannel,
-        DrivebaseConstants.kBackRightDriveMotorInverted, DrivebaseConstants.kBackRightCanCoderMagOffset);
+        DrivebaseConstants.kBackRightDriveMotorInverted, DrivebaseConstants.kBackRightCanCoderMagOffset, "frontRight");
 
     SmartDashboard.putData("frontLeft", frontLeft);
     SmartDashboard.putData("frontRight", frontRight);
@@ -83,8 +83,6 @@ public class Drivebase extends SubsystemBase {
             backLeft.getPosition(),
             backRight.getPosition()
         });
-    // set the swerve speed equal 0
-    drive(0, 0, 0, false);
   }
 
   StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
@@ -173,10 +171,6 @@ public class Drivebase extends SubsystemBase {
   }
 
   public void putDashboard() {
-    SmartDashboard.putNumber("frontLeft_speed", swerveModuleStates[0].speedMetersPerSecond);
-    SmartDashboard.putNumber("frontRight_speed", swerveModuleStates[1].speedMetersPerSecond);
-    SmartDashboard.putNumber("backLeft_speed", swerveModuleStates[2].speedMetersPerSecond);
-    SmartDashboard.putNumber("backRight_speed", swerveModuleStates[3].speedMetersPerSecond);
     SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
     SmartDashboard.putNumber("fl_distance", frontLeft.getDriveDistance());
     SmartDashboard.putNumber("fr_distance", frontRight.getDriveDistance());
