@@ -34,17 +34,14 @@ public class SwerveModule extends SubsystemBase {
 
   private final RelativeEncoder driveEncoder;
 
-  private final PIDController driveController;
   private final PIDController rotController;
 
   private final String name;
 
-  private double kP;
-
   public SwerveModule(int driveMotorChannel,
       int turningMotorChannel,
       int turningEncoderChannel, boolean driveInverted, double canCoderMagOffset, String name) {
-      
+
     this.name = name;
 
     driveMotor = new CANSparkMax(driveMotorChannel, MotorType.kBrushless);
@@ -61,13 +58,11 @@ public class SwerveModule extends SubsystemBase {
 
     driveEncoder = driveMotor.getEncoder();
 
-    init();
-    driveController = new PIDController(ModuleConstants.kPDriveController, ModuleConstants.kIDriveController,
-        ModuleConstants.kDDriveController);
     rotController = new PIDController(ModuleConstants.kPRotController, ModuleConstants.kIRotController,
         ModuleConstants.kDRotController);
     rotController.enableContinuousInput(-180.0, 180.0);
-    SmartDashboard.putNumber(name+"_kP_Drive", 0.0);
+
+    init();
   }
 
   public void init() {
@@ -118,7 +113,8 @@ public class SwerveModule extends SubsystemBase {
 
   // calculate the rate of the drive
   public double getDriveRate() {
-    return driveEncoder.getVelocity() / 60.0 / ModuleConstants.kModuleGearRate * 2.0 * Math.PI * ModuleConstants.kWheelRadius;
+    return driveEncoder.getVelocity() / 60.0 / ModuleConstants.kModuleGearRate * 2.0 * Math.PI
+        * ModuleConstants.kWheelRadius;
   }
 
   // to get rotation of turning motor
@@ -134,7 +130,7 @@ public class SwerveModule extends SubsystemBase {
 
   public double[] optimizeOutputVoltage(SwerveModuleState goalState, double currentTurningDegree) {
     goalState = SwerveModuleState.optimize(goalState, Rotation2d.fromDegrees(currentTurningDegree));
-    double driveMotorVoltage = goalState.speedMetersPerSecond*ModuleConstants.kDesireSpeedtoMotorVoltage;
+    double driveMotorVoltage = goalState.speedMetersPerSecond * ModuleConstants.kDesireSpeedtoMotorVoltage;
     double turningMotorVoltage = rotController.calculate(currentTurningDegree, goalState.angle.getDegrees());
     double[] moduleState = { driveMotorVoltage, turningMotorVoltage };
     return moduleState;
@@ -163,8 +159,8 @@ public class SwerveModule extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    SmartDashboard.putNumber(name+"_ModuleDistance", getDriveDistance());
-    SmartDashboard.putNumber(name+"_ModuleVelocity", getDriveRate());
+    SmartDashboard.putNumber(name + "_ModuleDistance", getDriveDistance());
+    SmartDashboard.putNumber(name + "_ModuleVelocity", getDriveRate());
   }
 
 }

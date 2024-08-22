@@ -23,7 +23,7 @@ public class RobotPoseReset extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivebase.resetRobotPose();
+    drivebase.resetRobotEncoder();
   }
 
   // Called once the command ends or is interrupted.

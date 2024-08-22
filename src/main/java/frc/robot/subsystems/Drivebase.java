@@ -43,18 +43,23 @@ public class Drivebase extends SubsystemBase {
 
   private SwerveModuleState[] swerveModuleStates = new SwerveModuleState[4];
 
+  StructArrayPublisher<SwerveModuleState> publisher;
+
   public Drivebase() {
-    frontLeftLocation = new Translation2d(0.3, 0.3);
-    frontRightLocation = new Translation2d(0.3, -0.3);
-    backLeftLocation = new Translation2d(-0.3, 0.3);
-    backRightLocation = new Translation2d(-0.3, -0.3);
+    frontLeftLocation = new Translation2d(DrivebaseConstants.kRobotLength / 2.0, DrivebaseConstants.kRobotWidth / 2.0);
+    frontRightLocation = new Translation2d(DrivebaseConstants.kRobotLength / 2.0,
+        -DrivebaseConstants.kRobotWidth / 2.0);
+    backLeftLocation = new Translation2d(-DrivebaseConstants.kRobotLength / 2.0, DrivebaseConstants.kRobotWidth / 2.0);
+    backRightLocation = new Translation2d(-DrivebaseConstants.kRobotLength / 2.0,
+        -DrivebaseConstants.kRobotWidth / 2.0);
 
     frontLeft = new SwerveModule(DrivebaseConstants.kFrontLeftDriveMotorChannel,
         DrivebaseConstants.kFrontLeftTurningMotorChannel, DrivebaseConstants.kFrontLeftTurningEncoderChannel,
         DrivebaseConstants.kFrontLeftDriveMotorInverted, DrivebaseConstants.kFrontLeftCanCoderMagOffset, "frontLeft");
     frontRight = new SwerveModule(DrivebaseConstants.kFrontRightDriveMotorChannel,
         DrivebaseConstants.kFrontRightTurningMotorChannel, DrivebaseConstants.kFrontRightTurningEncoderChannel,
-        DrivebaseConstants.kFrontRightDriveMotorInverted, DrivebaseConstants.kFrontRightCanCoderMagOffset, "frontRight");
+        DrivebaseConstants.kFrontRightDriveMotorInverted, DrivebaseConstants.kFrontRightCanCoderMagOffset,
+        "frontRight");
     backLeft = new SwerveModule(DrivebaseConstants.kBackLeftDriveMotorChannel,
         DrivebaseConstants.kBackLeftTurningMotorChannel, DrivebaseConstants.kBackLeftTurningEncoderChannel,
         DrivebaseConstants.kBackLeftDriveMotorInverted, DrivebaseConstants.kBackLeftCanCoderMagOffset, "backLeft");
@@ -68,7 +73,7 @@ public class Drivebase extends SubsystemBase {
     SmartDashboard.putData("backRight", backRight);
 
     // gyro = new AHRS(Port.kMXP);
-    gyro = new Pigeon2(30);
+    gyro = new Pigeon2(DrivebaseConstants.kGyroPort);
 
     kinematics = new SwerveDriveKinematics(
         frontLeftLocation, frontRightLocation, backLeftLocation, backRightLocation);
@@ -83,17 +88,9 @@ public class Drivebase extends SubsystemBase {
             backLeft.getPosition(),
             backRight.getPosition()
         });
-  }
 
-  StructArrayPublisher<SwerveModuleState> publisher = NetworkTableInstance.getDefault()
-    .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
-  
-    public void init() {
-    resetGyro();
-    frontLeft.init();
-    frontRight.init();
-    backLeft.init();
-    backRight.init();
+    publisher = NetworkTableInstance.getDefault()
+        .getStructArrayTopic("MyStates", SwerveModuleState.struct).publish();
   }
 
   // reset gyro
@@ -131,13 +128,12 @@ public class Drivebase extends SubsystemBase {
     backRight.setDesiredState(swerveModuleStates[3]);
   }
 
-  public void resetRobotPose() {
+  public void resetRobotEncoder() {
     frontLeft.resetAllEncoder();
     frontRight.resetAllEncoder();
     backLeft.resetAllEncoder();
     backRight.resetAllEncoder();
   }
-
 
   /** Updates the field relative position of the robot. */
   public void updateOdometry() {
@@ -150,36 +146,31 @@ public class Drivebase extends SubsystemBase {
             backRight.getPosition()
         });
   }
-  public void resetModuleDegree(){
+
+  public void resetModuleDegree() {
     frontLeft.resetTurningDegree();
     frontRight.resetTurningDegree();
     backLeft.resetTurningDegree();
     backRight.resetTurningDegree();
   }
 
-  public Command resetModuleDegreeCmd(){
+  public Command resetModuleDegreeCmd() {
     return Commands.runOnce(this::resetModuleDegree, this);
   }
-  public void setModuleDegreeTo90(){
+
+  public void setModuleDegreeTo90() {
     frontLeft.setTurningDegree90();
     frontRight.setTurningDegree90();
     backLeft.setTurningDegree90();
     backRight.setTurningDegree90();
   }
-  public Command setModuleDegreeTo90Cmd(){
+
+  public Command setModuleDegreeTo90Cmd() {
     return Commands.runOnce(this::setModuleDegreeTo90, this);
   }
 
   public void putDashboard() {
     SmartDashboard.putNumber("gyro_heading", getRotation2d().getDegrees() % 360.0);
-    SmartDashboard.putNumber("fl_distance", frontLeft.getDriveDistance());
-    SmartDashboard.putNumber("fr_distance", frontRight.getDriveDistance());
-    SmartDashboard.putNumber("bl_distance", backLeft.getDriveDistance());
-    SmartDashboard.putNumber("br_distance", backRight.getDriveDistance());
-    SmartDashboard.putNumber("fl_rate", frontLeft.getDriveRate());
-    SmartDashboard.putNumber("fr_rate", frontRight.getDriveRate());
-    SmartDashboard.putNumber("bl_rate", backLeft.getDriveRate());
-    SmartDashboard.putNumber("br_rate", backRight.getDriveRate());
   }
 
   @Override

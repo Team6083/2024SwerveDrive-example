@@ -18,6 +18,7 @@ public class SwerveJoystickCmd extends Command {
   private final SlewRateLimiter yLimiter;
   private final SlewRateLimiter rotLimiter;
   private final double drivebaseMaxSpeed = DrivebaseConstants.kMaxSpeed;
+  private final double drivebaseMaxAngularSpeed = DrivebaseConstants.kMaxAngularSpeed;
   private double xSpeed, ySpeed, rotSpeed;
 
   public SwerveJoystickCmd(Drivebase drivebase, CommandXboxController main) {
@@ -35,8 +36,8 @@ public class SwerveJoystickCmd extends Command {
   public void execute() {
     xSpeed = xLimiter.calculate(main.getLeftY()) * drivebaseMaxSpeed;//forward
     ySpeed = yLimiter.calculate(main.getLeftX()) * drivebaseMaxSpeed;//side
-    rotSpeed = rotLimiter.calculate(main.getRightX()) * drivebaseMaxSpeed * 2.0;
-    drivebase.drive(xSpeed, ySpeed, rotSpeed, false);
+    rotSpeed = rotLimiter.calculate(main.getRightX()) * drivebaseMaxAngularSpeed;//turn
+    drivebase.drive(xSpeed, ySpeed, rotSpeed, true);
   }
 
   // Called once the command ends or is interrupted.

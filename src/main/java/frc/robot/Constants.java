@@ -40,15 +40,22 @@ public final class Constants {
     public static final int kBackLeftTurningEncoderChannel = 33;
     public static final int kBackRightTurningEncoderChannel = 34;
 
+    // gyro channel
+    public static final int kGyroPort = 30;
+
     // can coder magnet offset value
     public static final double kFrontLeftCanCoderMagOffset = 0.003174;
     public static final double kFrontRightCanCoderMagOffset = 0.117676;
     public static final double kBackLeftCanCoderMagOffset = 0.347656;
     public static final double kBackRightCanCoderMagOffset = -0.178955;
 
+    public static final double kRobotWidth = 0.6;
+    public static final double kRobotLength = 0.6;
+    public static final double kRobotDiagonal = Math.sqrt(Math.pow(kRobotLength, 2.0) + Math.pow(kRobotWidth, 2.0));
+
     public static final double kMaxSpeed = 4.0;
     public static final double kMinSpeed = 0.2;
-    public static final double kMaxAngularSpeed = 2.5 * Math.PI; // 1/2 rotation per second
+    public static final double kMaxAngularSpeed = kMaxSpeed / (kRobotDiagonal / 2.0); // rad/s
 
     public static final double xLimiterRateLimit = 5.0;
     public static final double yLimiterRateLimit = 5.0;
