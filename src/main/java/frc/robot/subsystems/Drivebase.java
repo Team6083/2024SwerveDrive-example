@@ -65,7 +65,7 @@ public class Drivebase extends SubsystemBase {
         DrivebaseConstants.kBackLeftDriveMotorInverted, DrivebaseConstants.kBackLeftCanCoderMagOffset, "backLeft");
     backRight = new SwerveModule(DrivebaseConstants.kBackRightDriveMotorChannel,
         DrivebaseConstants.kBackRightTurningMotorChannel, DrivebaseConstants.kBackRightTurningEncoderChannel,
-        DrivebaseConstants.kBackRightDriveMotorInverted, DrivebaseConstants.kBackRightCanCoderMagOffset, "frontRight");
+        DrivebaseConstants.kBackRightDriveMotorInverted, DrivebaseConstants.kBackRightCanCoderMagOffset, "backRight");
 
     SmartDashboard.putData("frontLeft", frontLeft);
     SmartDashboard.putData("frontRight", frontRight);
@@ -154,8 +154,15 @@ public class Drivebase extends SubsystemBase {
     backRight.resetTurningDegree();
   }
 
+  public void stop() {
+    frontLeft.stopModule();
+    frontRight.stopModule();
+    backLeft.stopModule();
+    backRight.stopModule();
+  }
+
   public Command resetModuleDegreeCmd() {
-    return Commands.runOnce(this::resetModuleDegree, this);
+    return this.runEnd(this::resetModuleDegree, this::stop);
   }
 
   public void setModuleDegreeTo90() {
@@ -166,7 +173,7 @@ public class Drivebase extends SubsystemBase {
   }
 
   public Command setModuleDegreeTo90Cmd() {
-    return Commands.runOnce(this::setModuleDegreeTo90, this);
+    return this.runEnd(this::setModuleDegreeTo90, this::stop);
   }
 
   public void putDashboard() {

@@ -153,7 +153,7 @@ public class SwerveModule extends SubsystemBase {
 
   public void setTurningDegree90() {
     double turningDegreeTo90Voltage = rotController.calculate(getRotation(), 90);
-    turningMotor.set(turningDegreeTo90Voltage);
+    turningMotor.setVoltage(turningDegreeTo90Voltage);
   }
 
   @Override
@@ -161,6 +161,8 @@ public class SwerveModule extends SubsystemBase {
     // This method will be called once per scheduler run
     SmartDashboard.putNumber(name + "_ModuleDistance", getDriveDistance());
     SmartDashboard.putNumber(name + "_ModuleVelocity", getDriveRate());
+    SmartDashboard.putNumber(name + "_ModuleRotation", getRotation());
+    SmartDashboard.putData(name + "_rotController", rotController);
   }
 
 }
