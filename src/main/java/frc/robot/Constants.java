@@ -23,16 +23,16 @@ public final class Constants {
 
   public final class DrivebaseConstants {
     // drive motor channel
-    public static final int kFrontLeftDriveMotorChannel = 11;
-    public static final int kFrontRightDriveMotorChannel = 15;
-    public static final int kBackLeftDriveMotorChannel = 13;
-    public static final int kBackRightDriveMotorChannel = 17;
+    public static final int kFrontLeftDriveMotorChannel = 19;
+    public static final int kFrontRightDriveMotorChannel = 11;
+    public static final int kBackLeftDriveMotorChannel = 2;
+    public static final int kBackRightDriveMotorChannel = 16;
 
     // turning motor channel
-    public static final int kFrontLeftTurningMotorChannel = 12;
-    public static final int kFrontRightTurningMotorChannel = 16;
-    public static final int kBackLeftTurningMotorChannel = 14;
-    public static final int kBackRightTurningMotorChannel = 18;
+    public static final int kFrontLeftTurningMotorChannel = 23;
+    public static final int kFrontRightTurningMotorChannel = 14;
+    public static final int kBackLeftTurningMotorChannel = 15;
+    public static final int kBackRightTurningMotorChannel = 21;
 
     // turnning encoder channel
     public static final int kFrontLeftTurningEncoderChannel = 31;
