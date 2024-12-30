@@ -44,10 +44,10 @@ public final class Constants {
     public static final int kGyroPort = 30;
 
     // can coder magnet offset value
-    public static final double kFrontLeftCanCoderMagOffset = 0.003174;
-    public static final double kFrontRightCanCoderMagOffset = 0.117676;
-    public static final double kBackLeftCanCoderMagOffset = 0.347656;
-    public static final double kBackRightCanCoderMagOffset = -0.178955;
+    public static final double kFrontLeftCanCoderMagOffset = -0.179199;
+    public static final double kFrontRightCanCoderMagOffset = -0.294922;
+    public static final double kBackLeftCanCoderMagOffset = 0.530517;
+    public static final double kBackRightCanCoderMagOffset = -0.621826;
 
     public static final double kRobotWidth = 0.6;
     public static final double kRobotLength = 0.6;
