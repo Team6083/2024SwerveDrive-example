@@ -25,8 +25,8 @@ public final class Constants {
     // drive motor channel
     public static final int kFrontLeftDriveMotorChannel = 19;
     public static final int kFrontRightDriveMotorChannel = 11;
-    public static final int kBackLeftDriveMotorChannel = 2;
-    public static final int kBackRightDriveMotorChannel = 16;
+    public static final int kBackLeftDriveMotorChannel = 16;
+    public static final int kBackRightDriveMotorChannel = 2;
 
     // turning motor channel
     public static final int kFrontLeftTurningMotorChannel = 23;
